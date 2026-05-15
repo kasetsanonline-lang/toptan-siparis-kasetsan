@@ -5,23 +5,45 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kasetsan Toptan Sipariş Formu</title>
     <style>
-        /* Global Reset */
+        /* Tam sığdırma ve taşma engelleme */
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: sans-serif; margin: 0; padding: 0; background-color: #f4f7f6; color: #333; }
+        html, body { 
+            width: 100%; 
+            max-width: 100vw; 
+            overflow-x: hidden; 
+            margin: 0; 
+            padding: 0; 
+            background-color: #f4f7f6; 
+            color: #333;
+        }
         
-        /* Form Wrapper - Tam Genişlik ve Esneklik */
-        .kasetsan-form-wrapper { width: 100%; padding: 10px; display: flex; flex-direction: column; align-items: center; }
+        .kasetsan-form-wrapper { 
+            width: 100%; 
+            padding: 10px; 
+            display: flex; 
+            justify-content: center;
+        }
         
-        /* Container - Esnek Genişlik */
-        .k-container { width: 100%; max-width: 900px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.08); }
+        .k-container { 
+            width: 100%; 
+            max-width: 900px; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+        }
         
-        /* Bilgi Giriş Grid */
-        .k-info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; margin-bottom: 20px; }
+        .k-info-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
+            gap: 12px; 
+            margin-bottom: 20px; 
+        }
+        
         .k-form-group { display: flex; flex-direction: column; }
         .k-label { font-weight: 600; margin-bottom: 5px; font-size: 13px; color: #2c3e50; }
         .k-input, .k-textarea { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; }
         
-        /* Telefon Alanı */
         .k-tel-wrapper { position: relative; display: flex; align-items: center; }
         .k-tel-prefix { position: absolute; left: 10px; font-weight: bold; color: #555; font-size: 14px; }
         .k-tel-input { padding-left: 42px !important; }
@@ -29,79 +51,82 @@
         .k-full-width { grid-column: 1 / -1; }
         .k-textarea { height: 70px; resize: none; }
 
-        /* Masaüstü Tablo Yapısı (600px+) */
+        /* Masaüstü Tablo */
         .k-table-container { margin-top: 15px; border: 1px solid #eee; border-radius: 8px; overflow-x: auto; }
         .k-table { width: 100%; border-collapse: collapse; min-width: 600px; }
         .k-th { background-color: #2c3e50; color: white; padding: 12px; text-align: left; font-size: 13px; }
         .k-td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; }
 
-        /* Miktar Kontrolleri - Masaüstü */
-        .k-qty-control { display: flex; align-items: center; gap: 4px; }
+        /* Sayı Kutusu Düzenlemesi (Merkezleme Sorunu Çözümü) */
+        .k-qty-control { display: flex; align-items: center; gap: 4px; justify-content: center; }
         .k-btn-step { 
-            width: 30px; height: 30px; border: 1px solid #3498db; background: white; 
+            width: 32px; height: 32px; border: 1px solid #3498db; background: white; 
             color: #3498db; font-weight: bold; cursor: pointer; border-radius: 4px;
-            display: flex; align-items: center; justify-content: center; font-size: 16px;
+            display: flex; align-items: center; justify-content: center; font-size: 18px;
+            padding: 0; line-height: 1;
         }
-        .k-qty-input { width: 45px; height: 30px; text-align: center; border: 1px solid #ddd; border-radius: 4px; font-weight: bold; }
+        .k-qty-input { 
+            width: 50px; 
+            height: 32px; 
+            text-align: center !important; 
+            border: 1px solid #ddd; 
+            border-radius: 4px; 
+            font-weight: bold; 
+            padding: 0 !important; /* İç boşluğu sıfırlayarak 0'ı tam ortaladık */
+            margin: 0;
+            -moz-appearance: textfield;
+        }
+        .k-qty-input::-webkit-inner-spin-button, .k-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
         .k-badge { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; }
         .k-total-bar { background: #2c3e50; color: white; padding: 15px; border-radius: 8px; margin-top: 15px; display: flex; justify-content: flex-end; gap: 20px; font-weight: bold; }
-        .k-note { background: #fff3cd; border-left: 4px solid #f1c40f; padding: 10px; border-radius: 4px; margin-top: 15px; font-size: 13px; color: #856404; }
         .k-submit-btn { background-color: #27ae60; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 15px; }
 
         /* MOBİL GÖRÜNÜM (600px ve altı) */
         @media screen and (max-width: 600px) {
-            .k-container { padding: 10px; }
+            .k-container { padding: 12px; }
             .k-table-container { border: none; overflow: visible; }
-            
-            /* Tabloyu kart yapısına dönüştür */
-            .k-table thead { display: none; }
             .k-table, .k-table tbody, .k-table tr, .k-table td { display: block; width: 100%; }
             
             .k-table tr { 
                 margin-bottom: 10px; 
                 border: 1px solid #eee; 
                 border-radius: 8px; 
-                padding: 10px;
+                padding: 8px;
                 background: #fdfdfd;
             }
 
             .k-table td { 
                 border: none; 
-                padding: 4px 0; 
+                padding: 6px 0; 
                 display: flex; 
                 justify-content: space-between; 
                 align-items: center;
-                gap: 5px; /* Veri ve etiket arası minimum boşluk */
+                gap: 5px;
             }
 
             .k-table td:first-child { 
                 font-size: 15px; 
-                color: #2c3e50; 
                 border-bottom: 1px solid #f0f0f0; 
-                margin-bottom: 4px; 
                 padding-bottom: 6px; 
                 font-weight: bold;
                 justify-content: flex-start;
             }
             
-            /* Etiketlerin mobil stili ve genişliği */
             .k-table td::before { 
                 content: attr(data-label); 
                 font-weight: bold; 
                 color: #666; 
                 font-size: 12px; 
-                flex: 0 0 100px; /* Etiket genişliği sabitlendi */
+                flex: 0 0 90px;
                 text-align: left;
             }
 
-            /* Miktar Kontrolleri - Mobil */
-            .k-qty-control { flex: 1; justify-content: flex-end; gap: 5px; max-width: 150px; }
-            .k-btn-step { width: 35px; height: 35px; border-radius: 6px; font-size: 18px; }
-            .k-qty-input { width: 50px; height: 35px; flex: 0 0 auto; }
+            .k-qty-control { flex: 1; justify-content: flex-end; }
+            .k-btn-step { width: 38px; height: 38px; font-size: 20px; }
+            .k-qty-input { width: 55px; height: 38px; font-size: 16px; }
 
-            .k-total-bar { flex-direction: column; align-items: center; gap: 5px; font-size: 14px; padding: 10px; }
-            .k-badge { padding: 2px 6px; }
+            .k-total-bar { flex-direction: column; align-items: center; gap: 5px; font-size: 15px; }
         }
     </style>
 </head>
@@ -112,30 +137,29 @@
         <div class="k-info-grid">
             <div class="k-form-group">
                 <label class="k-label">Şirket Unvanı *</label>
-                <input type="text" id="firma" class="k-input" placeholder="Kasetsan LTD. ŞTİ." required>
+                <input type="text" id="firma" class="k-input" placeholder="Kasetsan LTD. ŞTİ.">
             </div>
             <div class="k-form-group">
-                <label class="k-label">Yetkili Adı Soyadı *</label>
-                <input type="text" id="yetkili" class="k-input" placeholder="Ad Soyad" required>
+                <label class="k-label">Yetkili Ad Soyad *</label>
+                <input type="text" id="yetkili" class="k-input">
             </div>
             <div class="k-form-group">
                 <label class="k-label">Telefon Numarası *</label>
                 <div class="k-tel-wrapper">
                     <span class="k-tel-prefix">+90</span>
-                    <input type="tel" id="tel" class="k-input k-tel-input" placeholder="5XXXXXXXXX" maxlength="10" required>
+                    <input type="tel" id="tel" class="k-input k-tel-input" placeholder="5XXXXXXXXX" maxlength="10">
                 </div>
             </div>
             <div class="k-form-group">
-                <label class="k-label">Vergi Dairesi *</label>
-                <input type="text" id="vd" class="k-input" required>
-            </div>
-            <div class="k-form-group">
-                <label class="k-label">Vergi Numarası *</label>
-                <input type="text" id="vn" class="k-input" required>
+                <label class="k-label">Vergi Dairesi / No *</label>
+                <div style="display: flex; gap: 5px;">
+                    <input type="text" id="vd" class="k-input" placeholder="Daire" style="flex: 1;">
+                    <input type="text" id="vn" class="k-input" placeholder="No" style="flex: 1;">
+                </div>
             </div>
             <div class="k-form-group k-full-width">
                 <label class="k-label">Teslimat Adresi *</label>
-                <textarea id="adres" class="k-textarea" placeholder="Teslimat adresi..." required></textarea>
+                <textarea id="adres" class="k-textarea"></textarea>
             </div>
         </div>
 
@@ -146,22 +170,17 @@
                         <th class="k-th">Ürün</th>
                         <th class="k-th">Süre</th>
                         <th class="k-th">Koli İçi</th>
-                        <th class="k-th">Sipariş</th>
+                        <th class="k-th" style="text-align: center;">Sipariş</th>
                         <th class="k-th">Toplam</th>
                     </tr>
                 </thead>
-                <tbody id="product-list">
-                    </tbody>
+                <tbody id="product-list"></tbody>
             </table>
         </div>
 
         <div class="k-total-bar">
             <span>Toplam Koli: <span id="grand-koli">0</span></span>
             <span>Toplam Rulo: <span id="grand-rulo">0</span></span>
-        </div>
-
-        <div class="k-note">
-            Sipariş detayları <strong>WhatsApp</strong> üzerinden iletilecektir.
         </div>
 
         <button type="button" class="k-submit-btn" id="send-btn">Siparişi WhatsApp ile Gönder</button>
@@ -186,7 +205,6 @@
         const gKoli = document.getElementById('grand-koli');
         const gRulo = document.getElementById('grand-rulo');
 
-        // Tabloyu Oluştur
         data.forEach((u, i) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -205,60 +223,44 @@
             list.appendChild(tr);
         });
 
-        // Hesaplama Fonksiyonu
-        function updateTotals() {
-            let totalK = 0, totalR = 0;
+        function update() {
+            let tk = 0, tr = 0;
             document.querySelectorAll('.k-qty-input').forEach((inp, i) => {
-                const val = parseInt(inp.value) || 0;
-                const unit = parseInt(inp.dataset.unit);
-                const rowRulo = val * unit;
-                document.getElementById(`r-${i}`).innerText = rowRulo.toLocaleString('tr-TR');
-                totalK += val;
-                totalR += rowRulo;
+                const v = parseInt(inp.value) || 0;
+                const u = parseInt(inp.dataset.unit);
+                const row = v * u;
+                document.getElementById(`r-${i}`).innerText = row.toLocaleString('tr-TR');
+                tk += v; tr += row;
             });
-            gKoli.innerText = totalK.toLocaleString('tr-TR');
-            gRulo.innerText = totalR.toLocaleString('tr-TR');
+            gKoli.innerText = tk.toLocaleString('tr-TR');
+            gRulo.innerText = tr.toLocaleString('tr-TR');
         }
 
-        // Tıklama Olayları (Artı - Eksi)
         list.addEventListener('click', (e) => {
             if (e.target.classList.contains('k-btn-step')) {
                 const idx = e.target.dataset.idx;
                 const inp = list.querySelector(`.k-qty-input[data-idx="${idx}"]`);
                 let current = parseInt(inp.value) || 0;
-
-                if (e.target.classList.contains('plus')) {
-                    inp.value = current + 1;
-                } else if (e.target.classList.contains('minus') && current > 0) {
-                    inp.value = current - 1;
-                }
-                updateTotals();
+                if (e.target.classList.contains('plus')) inp.value = current + 1;
+                else if (current > 0) inp.value = current - 1;
+                update();
             }
         });
 
-        // Manuel Giriş ve Focus Olayları
-        list.addEventListener('input', (e) => {
-            if (e.target.classList.contains('k-qty-input')) updateTotals();
-        });
-        list.addEventListener('focusin', (e) => {
-            if (e.target.classList.contains('k-qty-input') && e.target.value === '0') e.target.value = '';
-        });
-        list.addEventListener('focusout', (e) => {
-            if (e.target.classList.contains('k-qty-input') && e.target.value === '') e.target.value = '0';
-        });
+        list.addEventListener('input', (e) => { if (e.target.classList.contains('k-qty-input')) update(); });
+        list.addEventListener('focusin', (e) => { if (e.target.value === '0') e.target.value = ''; });
+        list.addEventListener('focusout', (e) => { if (e.target.value === '') e.target.value = '0'; });
 
-        // WhatsApp Gönderim
         document.getElementById('send-btn').addEventListener('click', () => {
             const f = document.getElementById('firma').value, y = document.getElementById('yetkili').value, 
                   t = document.getElementById('tel').value, vd = document.getElementById('vd').value, 
                   vn = document.getElementById('vn').value, a = document.getElementById('adres').value;
-            const myNo = "905393930307"; // NUMARANIZI BURAYA YAZIN
+            const myNo = "905393930307"; 
 
-            if(!f || !y || !t || !a || !vd || !vn) { alert("Lütfen tüm zorunlu alanları doldurun!"); return; }
+            if(!f || !y || !t || !a) { alert("Lütfen yıldızlı alanları doldurun!"); return; }
 
-            let msg = `*KASETSAN TOPTAN SİPARİŞ*%0A%0A*Firma:* ${f}%0A*Yetkili:* ${y}%0A*Tel:* %2B90${t}%0A*V.D.:* ${vd}%0A*V.No:* ${vn}%0A*Adres:* ${a}%0A%0A*SİPARİŞLER:*%0A`;
+            let msg = `*KASETSAN TOPTAN SİPARİŞ*%0A%0A*Firma:* ${f}%0A*Yetkili:* ${y}%0A*Tel:* %2B90${t}%0A*V.D./No:* ${vd} / ${vn}%0A*Adres:* ${a}%0A%0A*SİPARİŞLER:*%0A`;
             let hasItem = false;
-
             document.querySelectorAll('.k-qty-input').forEach((inp, i) => {
                 const v = parseInt(inp.value) || 0;
                 if(v > 0) {
@@ -266,13 +268,11 @@
                     msg += `• ${data[i].ad}: *${v} Koli* (${(v * data[i].koli).toLocaleString('tr-TR')} Rulo)%0A`;
                 }
             });
-
             msg += `%0A*Toplam:* ${gKoli.innerText} Koli / ${gRulo.innerText} Rulo`;
             if(!hasItem) { alert("Ürün seçmediniz!"); return; }
             window.open(`https://wa.me/${myNo}?text=${msg}`, '_blank');
         });
     })();
 </script>
-
 </body>
 </html>
