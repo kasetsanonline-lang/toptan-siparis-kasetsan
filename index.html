@@ -5,16 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kasetsan Toptan Sipariş Formu</title>
     <style>
-        /* Tam sığdırma ve taşma engelleme */
-        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* CSS SIFIRLAMA VE TEMEL AYARLAR */
+        * { box-sizing: border-box !important; -webkit-tap-highlight-color: transparent; }
         html, body { 
             width: 100%; 
-            max-width: 100vw; 
+            max-width: 100%; 
             overflow-x: hidden; 
             margin: 0; 
             padding: 0; 
             background-color: #f4f7f6; 
             color: #333;
+            -webkit-text-size-adjust: 100%;
         }
         
         .kasetsan-form-wrapper { 
@@ -31,8 +32,10 @@
             padding: 20px; 
             border-radius: 12px; 
             box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            margin: 0 auto;
         }
         
+        /* BİLGİ GİRİŞ ALANLARI */
         .k-info-grid { 
             display: grid; 
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
@@ -41,8 +44,8 @@
         }
         
         .k-form-group { display: flex; flex-direction: column; }
-        .k-label { font-weight: 600; margin-bottom: 5px; font-size: 13px; color: #2c3e50; }
-        .k-input, .k-textarea { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; }
+        .k-label { font-weight: 600; margin-bottom: 5px; font-size: 13px; color: #2c3e50; text-align: left; }
+        .k-input, .k-textarea { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; outline: none; }
         
         .k-tel-wrapper { position: relative; display: flex; align-items: center; }
         .k-tel-prefix { position: absolute; left: 10px; font-weight: bold; color: #555; font-size: 14px; }
@@ -51,82 +54,91 @@
         .k-full-width { grid-column: 1 / -1; }
         .k-textarea { height: 70px; resize: none; }
 
-        /* Masaüstü Tablo */
-        .k-table-container { margin-top: 15px; border: 1px solid #eee; border-radius: 8px; overflow-x: auto; }
-        .k-table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        /* MASAÜSTÜ TABLO */
+        .k-table-container { margin-top: 15px; border: 1px solid #eee; border-radius: 8px; overflow-x: auto; width: 100%; }
+        .k-table { width: 100%; border-collapse: collapse; min-width: 600px; table-layout: fixed; }
         .k-th { background-color: #2c3e50; color: white; padding: 12px; text-align: left; font-size: 13px; }
-        .k-td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; }
+        .k-td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; vertical-align: middle; }
 
-        /* Sayı Kutusu Düzenlemesi (Merkezleme Sorunu Çözümü) */
-        .k-qty-control { display: flex; align-items: center; gap: 4px; justify-content: center; }
+        /* RAKAM MERKEZLEME DÜZENLEMESİ */
+        .k-qty-control { display: flex; align-items: center; gap: 4px; justify-content: center; width: 100%; }
         .k-btn-step { 
             width: 32px; height: 32px; border: 1px solid #3498db; background: white; 
             color: #3498db; font-weight: bold; cursor: pointer; border-radius: 4px;
             display: flex; align-items: center; justify-content: center; font-size: 18px;
-            padding: 0; line-height: 1;
+            padding: 0; margin: 0; flex-shrink: 0;
         }
         .k-qty-input { 
-            width: 50px; 
+            width: 45px; 
             height: 32px; 
             text-align: center !important; 
             border: 1px solid #ddd; 
             border-radius: 4px; 
             font-weight: bold; 
-            padding: 0 !important; /* İç boşluğu sıfırlayarak 0'ı tam ortaladık */
+            padding: 0 !important;
             margin: 0;
+            display: inline-block;
+            line-height: 32px; /* Yüksekliğe eşitleyerek dikey merkezledik */
             -moz-appearance: textfield;
         }
         .k-qty-input::-webkit-inner-spin-button, .k-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 
-        .k-badge { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; }
+        .k-badge { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; white-space: nowrap; }
         .k-total-bar { background: #2c3e50; color: white; padding: 15px; border-radius: 8px; margin-top: 15px; display: flex; justify-content: flex-end; gap: 20px; font-weight: bold; }
         .k-submit-btn { background-color: #27ae60; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 15px; }
 
         /* MOBİL GÖRÜNÜM (600px ve altı) */
         @media screen and (max-width: 600px) {
-            .k-container { padding: 12px; }
+            .k-container { padding: 10px; }
             .k-table-container { border: none; overflow: visible; }
-            .k-table, .k-table tbody, .k-table tr, .k-table td { display: block; width: 100%; }
+            .k-table, .k-table tbody, .k-table tr, .k-table td { display: block; width: 100% !important; }
+            .k-table thead { display: none !important; }
             
             .k-table tr { 
-                margin-bottom: 10px; 
-                border: 1px solid #eee; 
+                margin-bottom: 12px; 
+                border: 1px solid #ddd; 
                 border-radius: 8px; 
-                padding: 8px;
-                background: #fdfdfd;
+                padding: 10px;
+                background: #fff;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.02);
             }
 
             .k-table td { 
-                border: none; 
-                padding: 6px 0; 
-                display: flex; 
-                justify-content: space-between; 
-                align-items: center;
-                gap: 5px;
+                border: none !important; 
+                padding: 8px 0 !important; 
+                display: flex !important; 
+                justify-content: space-between !important; 
+                align-items: center !important;
+                min-height: 40px;
             }
 
+            /* Mobilde Ürün İsmi */
             .k-table td:first-child { 
-                font-size: 15px; 
-                border-bottom: 1px solid #f0f0f0; 
-                padding-bottom: 6px; 
+                font-size: 16px; 
+                border-bottom: 1px solid #f0f0f0 !important; 
+                padding-bottom: 8px !important; 
                 font-weight: bold;
-                justify-content: flex-start;
+                justify-content: center !important;
+                color: #2c3e50;
             }
             
+            /* Ekranda görünmeyen yazıların (data-label) zorla gösterilmesi */
             .k-table td::before { 
-                content: attr(data-label); 
-                font-weight: bold; 
-                color: #666; 
-                font-size: 12px; 
-                flex: 0 0 90px;
+                content: attr(data-label) !important; 
+                font-weight: bold !important; 
+                color: #666 !important; 
+                font-size: 13px !important; 
+                display: block !important;
+                visibility: visible !important;
+                flex: 1;
                 text-align: left;
             }
 
             .k-qty-control { flex: 1; justify-content: flex-end; }
             .k-btn-step { width: 38px; height: 38px; font-size: 20px; }
-            .k-qty-input { width: 55px; height: 38px; font-size: 16px; }
+            .k-qty-input { width: 55px; height: 38px; font-size: 16px; line-height: 38px; }
 
-            .k-total-bar { flex-direction: column; align-items: center; gap: 5px; font-size: 15px; }
+            .k-total-bar { flex-direction: column; align-items: center; gap: 8px; font-size: 15px; }
         }
     </style>
 </head>
@@ -151,15 +163,15 @@
                 </div>
             </div>
             <div class="k-form-group">
-                <label class="k-label">Vergi Dairesi / No *</label>
+                <label class="k-label">Vergi Bilgileri *</label>
                 <div style="display: flex; gap: 5px;">
-                    <input type="text" id="vd" class="k-input" placeholder="Daire" style="flex: 1;">
-                    <input type="text" id="vn" class="k-input" placeholder="No" style="flex: 1;">
+                    <input type="text" id="vd" class="k-input" placeholder="V. Dairesi" style="flex: 1;">
+                    <input type="text" id="vn" class="k-input" placeholder="V. No" style="flex: 1;">
                 </div>
             </div>
             <div class="k-form-group k-full-width">
                 <label class="k-label">Teslimat Adresi *</label>
-                <textarea id="adres" class="k-textarea"></textarea>
+                <textarea id="adres" class="k-textarea" placeholder="Mahalle, Sokak, No, İlçe/İl..."></textarea>
             </div>
         </div>
 
@@ -167,11 +179,11 @@
             <table class="k-table">
                 <thead>
                     <tr>
-                        <th class="k-th">Ürün</th>
-                        <th class="k-th">Süre</th>
-                        <th class="k-th">Koli İçi</th>
-                        <th class="k-th" style="text-align: center;">Sipariş</th>
-                        <th class="k-th">Toplam</th>
+                        <th class="k-th" style="width: 30%;">Ürün</th>
+                        <th class="k-th" style="width: 15%;">Süre</th>
+                        <th class="k-th" style="width: 20%;">Koli İçi</th>
+                        <th class="k-th" style="width: 20%; text-align: center;">Sipariş</th>
+                        <th class="k-th" style="width: 15%;">Toplam</th>
                     </tr>
                 </thead>
                 <tbody id="product-list"></tbody>
@@ -189,36 +201,35 @@
 
 <script>
     (function() {
+        // Fiyat listesindeki güncel verilere göre (15.05.2025 tarihli listeden)
         const data = [
-            {ad: "37mmx30mt", koli: 630}, {ad: "56mmX12mt", koli: 630}, {ad: "56mmX13mt", koli: 630},
-            {ad: "56mmX14mt", koli: 560}, {ad: "56mmX15mt", koli: 560}, {ad: "56mmX16mt", koli: 500},
-            {ad: "56mmX20mt", koli: 350}, {ad: "56mmX25mt", koli: 340}, {ad: "56mmX30mt", koli: 290},
-            {ad: "58mmX50mt", koli: 210}, {ad: "58mmX60mt", koli: 140}, {ad: "70mmx30mt", koli: 200},
-            {ad: "70mmx40mt", koli: 150}, {ad: "75mmx30mt", koli: 200}, {ad: "75mmx40mt", koli: 150},
-            {ad: "80mmX30mt", koli: 200}, {ad: "80mmX40mt", koli: 150}, {ad: "80mmX45mt", koli: 100},
-            {ad: "80mmX60mt", koli: 100}, {ad: "80mmX80mt", koli: 96}, {ad: "100mmx30mt", koli: 150},
-            {ad: "100mmx40mt", koli: 150}, {ad: "110mmX30mt", koli: 150}, {ad: "110mmX40mt", koli: 120},
-            {ad: "110mmX50mt", koli: 100}
+            {ad: "56mmX12mt", koli: 630}, {ad: "56mmX13mt", koli: 630}, {ad: "56mmX14mt", koli: 560}, 
+            {ad: "56mmX15mt", koli: 560}, {ad: "56mmX16mt", koli: 500}, {ad: "56mmX20mt", koli: 350}, 
+            {ad: "56mmX25mt", koli: 340}, {ad: "56mmX30mt", koli: 290}, {ad: "58mmX50mt", koli: 210}, 
+            {ad: "58mmX60mt", koli: 140}, {ad: "80mmX30mt", koli: 200}, {ad: "80mmX40mt", koli: 150}, 
+            {ad: "80mmX45mt", koli: 100}, {ad: "80mmX60mt", koli: 100}, {ad: "80mmX80mt", koli: 96}, 
+            {ad: "110mmX30mt", koli: 150}, {ad: "110mmX40mt", koli: 120}, {ad: "110mmX50mt", koli: 100}
         ];
 
         const list = document.getElementById('product-list');
         const gKoli = document.getElementById('grand-koli');
         const gRulo = document.getElementById('grand-rulo');
 
+        // Ürün listesini oluştururken her td'ye data-label ekliyoruz
         data.forEach((u, i) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td class="k-td"><strong>${u.ad}</strong></td>
-                <td class="k-td" data-label="Süre:"><span class="k-badge">2-3 İş Günü</span></td>
+                <td class="k-td" data-label="Teslim Süresi:"><span class="k-badge">2-3 İş Günü</span></td>
                 <td class="k-td" data-label="Koli İçi:">${u.koli} Adet</td>
-                <td class="k-td" data-label="Sipariş:">
+                <td class="k-td" data-label="Sipariş Adeti:">
                     <div class="k-qty-control">
                         <button type="button" class="k-btn-step minus" data-idx="${i}">-</button>
                         <input type="number" class="k-qty-input" value="0" data-idx="${i}" data-unit="${u.koli}">
                         <button type="button" class="k-btn-step plus" data-idx="${i}">+</button>
                     </div>
                 </td>
-                <td class="k-td" data-label="Toplam:" id="r-${i}" style="font-weight:bold">0</td>
+                <td class="k-td" data-label="Toplam Rulo:" id="r-${i}" style="font-weight:bold">0</td>
             `;
             list.appendChild(tr);
         });
@@ -228,21 +239,22 @@
             document.querySelectorAll('.k-qty-input').forEach((inp, i) => {
                 const v = parseInt(inp.value) || 0;
                 const u = parseInt(inp.dataset.unit);
-                const row = v * u;
-                document.getElementById(`r-${i}`).innerText = row.toLocaleString('tr-TR');
-                tk += v; tr += row;
+                const rowTotal = v * u;
+                document.getElementById(`r-${i}`).innerText = rowTotal.toLocaleString('tr-TR');
+                tk += v; tr += rowTotal;
             });
             gKoli.innerText = tk.toLocaleString('tr-TR');
             gRulo.innerText = tr.toLocaleString('tr-TR');
         }
 
+        // Event Listeners
         list.addEventListener('click', (e) => {
             if (e.target.classList.contains('k-btn-step')) {
                 const idx = e.target.dataset.idx;
                 const inp = list.querySelector(`.k-qty-input[data-idx="${idx}"]`);
-                let current = parseInt(inp.value) || 0;
-                if (e.target.classList.contains('plus')) inp.value = current + 1;
-                else if (current > 0) inp.value = current - 1;
+                let val = parseInt(inp.value) || 0;
+                if (e.target.classList.contains('plus')) inp.value = val + 1;
+                else if (val > 0) inp.value = val - 1;
                 update();
             }
         });
@@ -255,9 +267,10 @@
             const f = document.getElementById('firma').value, y = document.getElementById('yetkili').value, 
                   t = document.getElementById('tel').value, vd = document.getElementById('vd').value, 
                   vn = document.getElementById('vn').value, a = document.getElementById('adres').value;
+            
             const myNo = "905393930307"; 
 
-            if(!f || !y || !t || !a) { alert("Lütfen yıldızlı alanları doldurun!"); return; }
+            if(!f || !y || !t || !a) { alert("Lütfen zorunlu alanları doldurun!"); return; }
 
             let msg = `*KASETSAN TOPTAN SİPARİŞ*%0A%0A*Firma:* ${f}%0A*Yetkili:* ${y}%0A*Tel:* %2B90${t}%0A*V.D./No:* ${vd} / ${vn}%0A*Adres:* ${a}%0A%0A*SİPARİŞLER:*%0A`;
             let hasItem = false;
@@ -269,7 +282,7 @@
                 }
             });
             msg += `%0A*Toplam:* ${gKoli.innerText} Koli / ${gRulo.innerText} Rulo`;
-            if(!hasItem) { alert("Ürün seçmediniz!"); return; }
+            if(!hasItem) { alert("Lütfen en az 1 ürün seçin!"); return; }
             window.open(`https://wa.me/${myNo}?text=${msg}`, '_blank');
         });
     })();
