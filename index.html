@@ -5,32 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kasetsan Toptan Sipariş Formu</title>
     <style>
-        /* CSS SIFIRLAMA VE ZORUNLU GÖRÜNÜRLÜK KURALLARI */
+        /* Global Sıfırlama ve Kutu Modeli */
         * { box-sizing: border-box !important; -webkit-tap-highlight-color: transparent; }
         
         html, body { 
-            width: 100% !important;
-            height: auto !important;
-            min-height: 100% !important;
+            width: 100% !important; 
             margin: 0 !important; 
             padding: 0 !important; 
             background-color: #f4f7f6 !important; 
             color: #333 !important;
-            display: block !important;
-            visibility: visible !important;
-            opacity: 1 !important;
+            font-family: sans-serif;
+            -webkit-text-size-adjust: 100%;
         }
         
-        /* Form Kapsayıcısı - İframe İçinde Çökmesini Engeller */
         .kasetsan-form-wrapper { 
             width: 100% !important; 
-            min-height: 100vh !important;
-            padding: 10px !important; 
+            padding: 12px !important; 
             display: flex !important; 
             justify-content: center !important;
-            align-items: flex-start !important;
-            visibility: visible !important;
-            opacity: 1 !important;
         }
         
         .k-container { 
@@ -39,47 +31,44 @@
             background: white !important; 
             padding: 20px !important; 
             border-radius: 12px !important; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.06) !important;
             margin: 0 auto !important;
-            display: block !important;
-            visibility: visible !important;
         }
         
-        /* BİLGİ GİRİŞ ALANLARI */
+        /* Bilgi Giriş Alanları Grid */
         .k-info-grid { 
             display: grid !important; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; 
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; 
             gap: 12px !important; 
             margin-bottom: 20px !important; 
         }
         
         .k-form-group { display: flex !important; flex-direction: column !important; }
-        .k-label { font-weight: 600 !important; margin-bottom: 5px !important; font-size: 13px !important; color: #2c3e50 !important; text-align: left !important; }
-        .k-input, .k-textarea { padding: 10px !important; border: 1px solid #ddd !important; border-radius: 6px !important; font-size: 14px !important; width: 100% !important; outline: none !important; }
+        .k-label { font-weight: 600 !important; margin-bottom: 6px !important; font-size: 13px !important; color: #2c3e50 !important; text-align: left !important; }
+        .k-input, .k-textarea { padding: 11px !important; border: 1px solid #ddd !important; border-radius: 6px !important; font-size: 14px !important; width: 100% !important; outline: none !important; }
         
-        .k-tel-wrapper { display: flex !important; align-items: center !important; position: relative !important; width: 100% !important; }
-        .k-tel-prefix { position: absolute !important; left: 10px !important; font-weight: bold !important; color: #555 !important; font-size: 14px !important; z-index: 2 !important; }
-        .k-tel-input { padding-left: 42px !important; }
-
+        .k-tel-wrapper { position: relative !important; display: flex !important; align-items: center !important; width: 100% !important; }
+        .k-tel-prefix { position: absolute !important; left: 12px !important; font-weight: bold !important; color: #555 !important; font-size: 14px !important; z-index: 2 !important; }
+        .k-tel-input { padding-left: 45px !important; }
         .k-full-width { grid-column: 1 / -1 !important; }
-        .k-textarea { height: 70px !important; resize: none !important; }
+        .k-textarea { height: 80px !important; resize: none !important; }
 
-        /* MASAÜSTÜ TABLO */
+        /* MASAÜSTÜ İÇİN TABLO TASARIMI */
         .k-table-container { margin-top: 15px !important; border: 1px solid #eee !important; border-radius: 8px !important; overflow-x: auto !important; width: 100% !important; }
-        .k-table { width: 100% !important; border-collapse: collapse !important; min-width: 600px !important; table-layout: fixed !important; }
+        .k-table { width: 100% !important; border-collapse: collapse !important; min-width: 600px !important; }
         .k-th { background-color: #2c3e50 !important; color: white !important; padding: 12px !important; text-align: left !important; font-size: 13px !important; }
-        .k-td { padding: 10px !important; border-bottom: 1px solid #eee !important; font-size: 14px !important; vertical-align: middle !important; }
+        .k-td { padding: 12px !important; border-bottom: 1px solid #eee !important; font-size: 14px !important; vertical-align: middle !important; }
 
-        /* MİKTAR BUTONLARI VE MERKEZLEME */
-        .k-qty-control { display: flex !important; align-items: center !important; gap: 4px !important; justify-content: center !important; width: 100% !important; }
+        /* Masaüstü ve Web Görünümünde Rakamların Kusursuz Merkezlenmesi */
+        .k-qty-control { display: flex !important; align-items: center !important; gap: 6px !important; justify-content: center !important; }
         .k-btn-step { 
             width: 32px !important; height: 32px !important; border: 1px solid #3498db !important; background: white !important; 
             color: #3498db !important; font-weight: bold !important; cursor: pointer !important; border-radius: 4px !important;
             display: flex !important; align-items: center !important; justify-content: center !important; font-size: 18px !important;
-            padding: 0 !important; margin: 0 !important; flex-shrink: 0 !important;
+            padding: 0 !important; margin: 0 !important;
         }
         .k-qty-input { 
-            width: 45px !important; 
+            width: 50px !important; 
             height: 32px !important; 
             text-align: center !important; 
             border: 1px solid #ddd !important; 
@@ -87,69 +76,68 @@
             font-weight: bold !important; 
             padding: 0 !important;
             margin: 0 !important;
-            display: inline-block !important;
-            line-height: 32px !important;
+            font-size: 14px !important;
+            line-height: 30px !important; /* Dikey kaymayı önleyen sabitleme */
             -moz-appearance: textfield !important;
         }
         .k-qty-input::-webkit-inner-spin-button, .k-qty-input::-webkit-outer-spin-button { -webkit-appearance: none !important; margin: 0 !important; }
 
-        .k-badge { background: #e74c3c !important; color: white !important; padding: 3px 8px !important; border-radius: 12px !important; font-size: 10px !important; font-weight: bold !important; white-space: nowrap !important; }
-        .k-total-bar { background: #2c3e50 !important; color: white !important; padding: 15px !important; border-radius: 8px !important; margin-top: 15px !important; display: flex !important; justify-content: flex-end !important; gap: 20px !important; font-weight: bold !important; }
-        .k-submit-btn { background-color: #27ae60 !important; color: white !important; padding: 15px !important; border: none !important; border-radius: 8px !important; cursor: pointer !important; font-size: 16px !important; font-weight: bold !important; width: 100% !important; margin-top: 15px !important; }
+        .k-badge { background: #e74c3c !important; color: white !important; padding: 3px 8px !important; border-radius: 12px !important; font-size: 11px !important; font-weight: bold !important; }
+        
+        /* Mobil Liste Kart Düzeni (Varsayılan olarak masaüstünde gizli) */
+        .k-mobile-list { display: none !important; }
 
-        /* MOBİL GÖRÜNÜM (600px ve altı) */
+        /* Toplam Bilgi Alanları ve Buton */
+        .k-total-bar { background: #2c3e50 !important; color: white !important; padding: 15px !important; border-radius: 8px !important; margin-top: 15px !important; display: flex !important; justify-content: flex-end !important; gap: 25px !important; font-weight: bold !important; font-size: 16px !important; }
+        .k-submit-btn { background-color: #27ae60 !important; color: white !important; padding: 16px !important; border: none !important; border-radius: 8px !important; cursor: pointer !important; font-size: 16px !important; font-weight: bold !important; width: 100% !important; margin-top: 15px !important; }
+
+        /* KESİNTİSİZ MOBİL RESPONSIVE GÖRÜNÜM (600px ve Altı Kısmı) */
         @media screen and (max-width: 600px) {
-            .k-container { padding: 10px !important; }
-            .k-table-container { border: none !important; overflow: visible !important; }
-            .k-table, .k-table tbody, .k-table tr, .k-table td { display: block !important; width: 100% !important; }
-            .k-table thead { display: none !important; }
+            .k-container { padding: 12px !important; }
             
-            .k-table tr { 
-                margin-bottom: 12px !important; 
-                border: 1px solid #ddd !important; 
-                border-radius: 8px !important; 
-                padding: 10px !important;
-                background: #fff !important;
+            /* Masaüstü tablosunu mobilde komple imha et */
+            .k-table-container { display: none !important; }
+            
+            /* Mobil kart düzenini aktif et */
+            .k-mobile-list { display: block !important; margin-top: 15px !important; width: 100% !important; }
+            
+            .k-card {
+                background: #ffffff !important;
+                border: 1px solid #e2e8f0 !important;
+                border-radius: 8px !important;
+                padding: 12px !important;
+                margin-bottom: 12px !important;
                 box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
-            }
-
-            .k-table td { 
-                border: none !important; 
-                padding: 8px 0 !important; 
-                display: flex !important; 
-                justify-content: space-between !important; 
-                align-items: center !important;
-                min-height: 40px !important;
-            }
-
-            /* Mobilde Ürün İsmi */
-            .k-table td:first-child { 
-                font-size: 16px !important; 
-                border-bottom: 1px solid #f0f0f0 !important; 
-                padding-bottom: 8px !important; 
-                font-weight: bold !important;
-                justify-content: center !important;
-                color: #2c3e50 !important;
+                width: 100% !important;
             }
             
-            /* Mobilde Yan Yazıların (data-label) Kesin Gösterilmesi */
-            .k-table td::before { 
-                content: attr(data-label) !important; 
-                font-weight: bold !important; 
-                color: #666 !important; 
-                font-size: 13px !important; 
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                flex: 1 !important;
+            .k-card-title {
+                font-size: 16px !important;
+                font-weight: bold !important;
+                color: #2c3e50 !important;
+                border-bottom: 1px solid #edf2f7 !important;
+                padding-bottom: 6px !important;
+                margin-bottom: 8px !important;
                 text-align: left !important;
             }
+            
+            .k-card-row {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: center !important;
+                padding: 5px 0 !important;
+                font-size: 13px !important;
+                width: 100% !important;
+            }
+            
+            .k-card-label { font-weight: bold !important; color: #666 !important; }
+            
+            /* Mobilde Butonların Boyutunu Büyüt (Tıklama Kolaylığı İçin) */
+            .k-card .k-qty-control { justify-content: flex-end !important; }
+            .k-card .k-btn-step { width: 36px !important; height: 36px !important; font-size: 20px !important; }
+            .k-card .k-qty-input { width: 55px !important; height: 36px !important; font-size: 15px !important; line-height: 36px !important; }
 
-            .k-qty-control { flex: 1 !important; justify-content: flex-end !important; }
-            .k-btn-step { width: 38px !important; height: 38px !important; font-size: 20px !important; }
-            .k-qty-input { width: 55px !important; height: 38px !important; font-size: 16px !important; line-height: 38px !important; text-align: center !important; }
-
-            .k-total-bar { flex-direction: column !important; align-items: center !important; gap: 8px !important; font-size: 15px !important; }
+            .k-total-bar { flex-direction: column !important; align-items: center !important; gap: 8px !important; font-size: 15px !important; text-align: center !important; }
         }
     </style>
 </head>
@@ -190,16 +178,18 @@
             <table class="k-table">
                 <thead>
                     <tr>
-                        <th class="k-th" style="width: 30%;">Ürün</th>
-                        <th class="k-th" style="width: 15%;">Süre</th>
+                        <th class="k-th" style="width: 25%;">Ürün</th>
+                        <th class="k-th" style="width: 20%;">Süre</th>
                         <th class="k-th" style="width: 20%;">Koli İçi</th>
-                        <th class="k-th" style="width: 20%; text-align: center;">Sipariş</th>
-                        <th class="k-th" style="width: 15%;">Toplam</th>
+                        <th class="k-th" style="width: 20%; text-align: center;">Sipariş (Koli)</th>
+                        <th class="k-th" style="width: 15%;">Toplam Rulo</th>
                     </tr>
                 </thead>
-                <tbody id="product-list"></tbody>
+                <tbody id="desktop-product-list"></tbody>
             </table>
         </div>
+
+        <div id="mobile-product-list" class="k-mobile-list"></div>
 
         <div class="k-total-bar">
             <span>Toplam Koli: <span id="grand-koli">0</span></span>
@@ -212,6 +202,7 @@
 
 <script>
     (function() {
+        // En güncel ürün listesi tanımı
         const data = [
             {ad: "56mmX12mt", koli: 630}, {ad: "56mmX13mt", koli: 630}, {ad: "56mmX14mt", koli: 560}, 
             {ad: "56mmX15mt", koli: 560}, {ad: "56mmX16mt", koli: 500}, {ad: "56mmX20mt", koli: 350}, 
@@ -221,76 +212,151 @@
             {ad: "110mmX30mt", koli: 150}, {ad: "110mmX40mt", koli: 120}, {ad: "110mmX50mt", koli: 100}
         ];
 
-        const list = document.getElementById('product-list');
+        const desktopTbody = document.getElementById('desktop-product-list');
+        const mobileContainer = document.getElementById('mobile-product-list');
         const gKoli = document.getElementById('grand-koli');
         const gRulo = document.getElementById('grand-rulo');
 
+        // Hem Masaüstü hem Mobil HTML elemanlarını senkronize şekilde üretelim
         data.forEach((u, i) => {
+            // 1. Masaüstü Satırı
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td class="k-td"><strong>${u.ad}</strong></td>
-                <td class="k-td" data-label="Teslim Süresi:"><span class="k-badge">2-3 İş Günü</span></td>
-                <td class="k-td" data-label="Koli İçi:">${u.koli} Adet</td>
-                <td class="k-td" data-label="Sipariş Adeti:">
+                <td class="k-td"><span class="k-badge">2-3 İş Günü</span></td>
+                <td class="k-td">${u.koli} Adet</td>
+                <td class="k-td">
                     <div class="k-qty-control">
                         <button type="button" class="k-btn-step minus" data-idx="${i}">-</button>
-                        <input type="number" class="k-qty-input" value="0" data-idx="${i}" data-unit="${u.koli}">
+                        <input type="number" class="k-qty-input d-input" value="0" data-idx="${i}" data-unit="${u.koli}">
                         <button type="button" class="k-btn-step plus" data-idx="${i}">+</button>
                     </div>
                 </td>
-                <td class="k-td" data-label="Toplam Rulo:" id="r-${i}" style="font-weight:bold">0</td>
+                <td class="k-td" id="d-total-${i}" style="font-weight:bold">0</td>
             `;
-            list.appendChild(tr);
+            desktopTbody.appendChild(tr);
+
+            // 2. Mobil Kart Yapısı
+            const card = document.createElement('div');
+            card.className = 'k-card';
+            card.innerHTML = `
+                <div class="k-card-title">${u.ad}</div>
+                <div class="k-card-row">
+                    <span class="k-card-label">Teslim Süresi:</span>
+                    <span class="k-badge">2-3 İş Günü</span>
+                </div>
+                <div class="k-card-row">
+                    <span class="k-card-label">Koli İçi Adet:</span>
+                    <span>${u.koli} Adet</span>
+                </div>
+                <div class="k-card-row">
+                    <span class="k-card-label">Sipariş (Koli):</span>
+                    <div class="k-qty-control">
+                        <button type="button" class="k-btn-step minus" data-idx="${i}">-</button>
+                        <input type="number" class="k-qty-input m-input" value="0" data-idx="${i}" data-unit="${u.koli}">
+                        <button type="button" class="k-btn-step plus" data-idx="${i}">+</button>
+                    </div>
+                </div>
+                <div class="k-card-row" style="border-top:1px dashed #eee; padding-top:8px; margin-top:4px;">
+                    <span class="k-card-label" style="color:#2c3e50;">Toplam Rulo:</span>
+                    <span id="m-total-${i}" style="font-weight:bold; color:#2c3e50; font-size:14px;">0</span>
+                </div>
+            `;
+            mobileContainer.appendChild(card);
         });
 
-        function update() {
-            let tk = 0, tr = 0;
-            document.querySelectorAll('.k-qty-input').forEach((inp, i) => {
-                const v = parseInt(inp.value) || 0;
-                const u = parseInt(inp.dataset.unit);
-                const rowTotal = v * u;
-                document.getElementById(`r-${i}`).innerText = rowTotal.toLocaleString('tr-TR');
-                tk += v; tr += rowTotal;
+        // Çift Taraflı Senkronizasyonlu Hesaplama Fonksiyonu
+        function calculateAndUpdate(changedIdx, newValue) {
+            // İlgili indexteki hem masaüstü hem mobil input değerini eşitle
+            const dInp = desktopTbody.querySelector(`.d-input[data-idx="${changedIdx}"]`);
+            const mInp = mobileContainer.querySelector(`.m-input[data-idx="${changedIdx}"]`);
+            
+            if(dInp) dInp.value = newValue;
+            if(mInp) mInp.value = newValue;
+
+            let totalKoli = 0, totalRulo = 0;
+
+            // Tüm listeyi baştan hesapla ve textleri bas
+            data.forEach((u, i) => {
+                const currentInp = desktopTbody.querySelector(`.d-input[data-idx="${i}"]`);
+                const val = parseInt(currentInp.value) || 0;
+                const rowRulo = val * u.koli;
+
+                // Satır toplamlarını iki tarafa da yaz
+                document.getElementById(`d-total-${i}`).innerText = rowTotal = rowRulo.toLocaleString('tr-TR');
+                document.getElementById(`m-total-${i}`).innerText = rowRulo.toLocaleString('tr-TR');
+
+                totalKoli += val;
+                totalRulo += rowRulo;
             });
-            gKoli.innerText = tk.toLocaleString('tr-TR');
-            gRulo.innerText = tr.toLocaleString('tr-TR');
+
+            // Alt toplamları güncelle
+            gKoli.innerText = totalKoli.toLocaleString('tr-TR');
+            gRulo.innerText = totalRulo.toLocaleString('tr-TR');
         }
 
-        list.addEventListener('click', (e) => {
+        // Tıklama Olay Yönetimi (Delegation - Hem Tablo Hem Kart İçin Ortak)
+        function handleStepClick(e) {
             if (e.target.classList.contains('k-btn-step')) {
                 const idx = e.target.dataset.idx;
-                const inp = list.querySelector(`.k-qty-input[data-idx="${idx}"]`);
-                let val = parseInt(inp.value) || 0;
-                if (e.target.classList.contains('plus')) inp.value = val + 1;
-                else if (val > 0) inp.value = val - 1;
-                update();
+                // Değeri masaüstü elemanı üzerinden referans alıp yürütelim
+                const refInp = desktopTbody.querySelector(`.d-input[data-idx="${idx}"]`);
+                let currentVal = parseInt(refInp.value) || 0;
+
+                if (e.target.classList.contains('plus')) {
+                    currentVal += 1;
+                } else if (currentVal > 0) {
+                    currentVal -= 1;
+                }
+                calculateAndUpdate(idx, currentVal);
             }
-        });
+        }
+        desktopTbody.addEventListener('click', handleStepClick);
+        mobileContainer.addEventListener('click', handleStepClick);
 
-        list.addEventListener('input', (e) => { if (e.target.classList.contains('k-qty-input')) update(); });
-        list.addEventListener('focusin', (e) => { if (e.target.value === '0') e.target.value = ''; });
-        list.addEventListener('focusout', (e) => { if (e.target.value === '') e.target.value = '0'; });
+        // Doğrudan Input Değişiklik Yönetimi
+        function handleInputWrite(e) {
+            if (e.target.classList.contains('k-qty-input')) {
+                const idx = e.target.dataset.idx;
+                const currentVal = parseInt(e.target.value) || 0;
+                calculateAndUpdate(idx, currentVal);
+            }
+        }
+        desktopTbody.addEventListener('input', handleInputWrite);
+        mobileContainer.addEventListener('input', handleInputWrite);
 
+        // Klavye ile Odaklanma Temizliği (0 Değeri Yönetimi)
+        function clearZero(e) { if (e.target.classList.contains('k-qty-input') && e.target.value === '0') e.target.value = ''; }
+        function putZero(e) { if (e.target.classList.contains('k-qty-input') && e.target.value === '') e.target.value = '0'; }
+        
+        desktopTbody.addEventListener('focusin', clearZero);
+        desktopTbody.addEventListener('focusout', putZero);
+        mobileContainer.addEventListener('focusin', clearZero);
+        mobileContainer.addEventListener('focusout', putZero);
+
+        // WhatsApp Entegrasyonu Gönderim Tetikleyicisi
         document.getElementById('send-btn').addEventListener('click', () => {
             const f = document.getElementById('firma').value, y = document.getElementById('yetkili').value, 
                   t = document.getElementById('tel').value, vd = document.getElementById('vd').value, 
                   vn = document.getElementById('vn').value, a = document.getElementById('adres').value;
             
-            const myNo = "905393930307"; 
+            const myNo = "905322525732"; 
 
-            if(!f || !y || !t || !a) { alert("Lütfen zorunlu alanları doldurun!"); return; }
+            if(!f || !y || !t || !a) { alert("Lütfen zorunlu alanları (*) doldurun!"); return; }
 
             let msg = `*KASETSAN TOPTAN SİPARİŞ*%0A%0A*Firma:* ${f}%0A*Yetkili:* ${y}%0A*Tel:* %2B90${t}%0A*V.D./No:* ${vd} / ${vn}%0A*Adres:* ${a}%0A%0A*SİPARİŞLER:*%0A`;
             let hasItem = false;
-            document.querySelectorAll('.k-qty-input').forEach((inp, i) => {
+            
+            desktopTbody.querySelectorAll('.d-input').forEach((inp, i) => {
                 const v = parseInt(inp.value) || 0;
                 if(v > 0) {
                     hasItem = true;
                     msg += `• ${data[i].ad}: *${v} Koli* (${(v * data[i].koli).toLocaleString('tr-TR')} Rulo)%0A`;
                 }
             });
+            
             msg += `%0A*Toplam:* ${gKoli.innerText} Koli / ${gRulo.innerText} Rulo`;
-            if(!hasItem) { alert("Lütfen en az 1 ürün seçin!"); return; }
+            if(!hasItem) { alert("Lütfen sipariş adeti girmediniz!"); return; }
             window.open(`https://wa.me/${myNo}?text=${msg}`, '_blank');
         });
     })();
