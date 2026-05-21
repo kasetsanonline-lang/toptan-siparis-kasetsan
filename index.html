@@ -5,102 +5,112 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Kasetsan Toptan Sipariş Formu</title>
     <style>
-        /* CSS SIFIRLAMA VE TEMEL AYARLAR */
+        /* CSS SIFIRLAMA VE ZORUNLU GÖRÜNÜRLÜK KURALLARI */
         * { box-sizing: border-box !important; -webkit-tap-highlight-color: transparent; }
+        
         html, body { 
-            width: 100%; 
-            max-width: 100%; 
-            overflow-x: hidden; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f4f7f6; 
-            color: #333;
-            -webkit-text-size-adjust: 100%;
+            width: 100% !important;
+            height: auto !important;
+            min-height: 100% !important;
+            margin: 0 !important; 
+            padding: 0 !important; 
+            background-color: #f4f7f6 !important; 
+            color: #333 !important;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         
+        /* Form Kapsayıcısı - İframe İçinde Çökmesini Engeller */
         .kasetsan-form-wrapper { 
-            width: 100%; 
-            padding: 10px; 
-            display: flex; 
-            justify-content: center;
+            width: 100% !important; 
+            min-height: 100vh !important;
+            padding: 10px !important; 
+            display: flex !important; 
+            justify-content: center !important;
+            align-items: flex-start !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
         
         .k-container { 
-            width: 100%; 
-            max-width: 900px; 
-            background: white; 
-            padding: 20px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-            margin: 0 auto;
+            width: 100% !important; 
+            max-width: 900px !important; 
+            background: white !important; 
+            padding: 20px !important; 
+            border-radius: 12px !important; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+            margin: 0 auto !important;
+            display: block !important;
+            visibility: visible !important;
         }
         
         /* BİLGİ GİRİŞ ALANLARI */
         .k-info-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); 
-            gap: 12px; 
-            margin-bottom: 20px; 
+            display: grid !important; 
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)) !important; 
+            gap: 12px !important; 
+            margin-bottom: 20px !important; 
         }
         
-        .k-form-group { display: flex; flex-direction: column; }
-        .k-label { font-weight: 600; margin-bottom: 5px; font-size: 13px; color: #2c3e50; text-align: left; }
-        .k-input, .k-textarea { padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; width: 100%; outline: none; }
+        .k-form-group { display: flex !important; flex-direction: column !important; }
+        .k-label { font-weight: 600 !important; margin-bottom: 5px !important; font-size: 13px !important; color: #2c3e50 !important; text-align: left !important; }
+        .k-input, .k-textarea { padding: 10px !important; border: 1px solid #ddd !important; border-radius: 6px !important; font-size: 14px !important; width: 100% !important; outline: none !important; }
         
-        .k-tel-wrapper { position: relative; display: flex; align-items: center; }
-        .k-tel-prefix { position: absolute; left: 10px; font-weight: bold; color: #555; font-size: 14px; }
+        .k-tel-wrapper { display: flex !important; align-items: center !important; position: relative !important; width: 100% !important; }
+        .k-tel-prefix { position: absolute !important; left: 10px !important; font-weight: bold !important; color: #555 !important; font-size: 14px !important; z-index: 2 !important; }
         .k-tel-input { padding-left: 42px !important; }
 
-        .k-full-width { grid-column: 1 / -1; }
-        .k-textarea { height: 70px; resize: none; }
+        .k-full-width { grid-column: 1 / -1 !important; }
+        .k-textarea { height: 70px !important; resize: none !important; }
 
         /* MASAÜSTÜ TABLO */
-        .k-table-container { margin-top: 15px; border: 1px solid #eee; border-radius: 8px; overflow-x: auto; width: 100%; }
-        .k-table { width: 100%; border-collapse: collapse; min-width: 600px; table-layout: fixed; }
-        .k-th { background-color: #2c3e50; color: white; padding: 12px; text-align: left; font-size: 13px; }
-        .k-td { padding: 10px; border-bottom: 1px solid #eee; font-size: 14px; vertical-align: middle; }
+        .k-table-container { margin-top: 15px !important; border: 1px solid #eee !important; border-radius: 8px !important; overflow-x: auto !important; width: 100% !important; }
+        .k-table { width: 100% !important; border-collapse: collapse !important; min-width: 600px !important; table-layout: fixed !important; }
+        .k-th { background-color: #2c3e50 !important; color: white !important; padding: 12px !important; text-align: left !important; font-size: 13px !important; }
+        .k-td { padding: 10px !important; border-bottom: 1px solid #eee !important; font-size: 14px !important; vertical-align: middle !important; }
 
-        /* RAKAM MERKEZLEME DÜZENLEMESİ */
-        .k-qty-control { display: flex; align-items: center; gap: 4px; justify-content: center; width: 100%; }
+        /* MİKTAR BUTONLARI VE MERKEZLEME */
+        .k-qty-control { display: flex !important; align-items: center !important; gap: 4px !important; justify-content: center !important; width: 100% !important; }
         .k-btn-step { 
-            width: 32px; height: 32px; border: 1px solid #3498db; background: white; 
-            color: #3498db; font-weight: bold; cursor: pointer; border-radius: 4px;
-            display: flex; align-items: center; justify-content: center; font-size: 18px;
-            padding: 0; margin: 0; flex-shrink: 0;
+            width: 32px !important; height: 32px !important; border: 1px solid #3498db !important; background: white !important; 
+            color: #3498db !important; font-weight: bold !important; cursor: pointer !important; border-radius: 4px !important;
+            display: flex !important; align-items: center !important; justify-content: center !important; font-size: 18px !important;
+            padding: 0 !important; margin: 0 !important; flex-shrink: 0 !important;
         }
         .k-qty-input { 
-            width: 45px; 
-            height: 32px; 
+            width: 45px !important; 
+            height: 32px !important; 
             text-align: center !important; 
-            border: 1px solid #ddd; 
-            border-radius: 4px; 
-            font-weight: bold; 
+            border: 1px solid #ddd !important; 
+            border-radius: 4px !important; 
+            font-weight: bold !important; 
             padding: 0 !important;
-            margin: 0;
-            display: inline-block;
-            line-height: 32px; /* Yüksekliğe eşitleyerek dikey merkezledik */
-            -moz-appearance: textfield;
+            margin: 0 !important;
+            display: inline-block !important;
+            line-height: 32px !important;
+            -moz-appearance: textfield !important;
         }
-        .k-qty-input::-webkit-inner-spin-button, .k-qty-input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+        .k-qty-input::-webkit-inner-spin-button, .k-qty-input::-webkit-outer-spin-button { -webkit-appearance: none !important; margin: 0 !important; }
 
-        .k-badge { background: #e74c3c; color: white; padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; white-space: nowrap; }
-        .k-total-bar { background: #2c3e50; color: white; padding: 15px; border-radius: 8px; margin-top: 15px; display: flex; justify-content: flex-end; gap: 20px; font-weight: bold; }
-        .k-submit-btn { background-color: #27ae60; color: white; padding: 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 16px; font-weight: bold; width: 100%; margin-top: 15px; }
+        .k-badge { background: #e74c3c !important; color: white !important; padding: 3px 8px !important; border-radius: 12px !important; font-size: 10px !important; font-weight: bold !important; white-space: nowrap !important; }
+        .k-total-bar { background: #2c3e50 !important; color: white !important; padding: 15px !important; border-radius: 8px !important; margin-top: 15px !important; display: flex !important; justify-content: flex-end !important; gap: 20px !important; font-weight: bold !important; }
+        .k-submit-btn { background-color: #27ae60 !important; color: white !important; padding: 15px !important; border: none !important; border-radius: 8px !important; cursor: pointer !important; font-size: 16px !important; font-weight: bold !important; width: 100% !important; margin-top: 15px !important; }
 
         /* MOBİL GÖRÜNÜM (600px ve altı) */
         @media screen and (max-width: 600px) {
-            .k-container { padding: 10px; }
-            .k-table-container { border: none; overflow: visible; }
-            .k-table, .k-table tbody, .k-table tr, .k-table td { display: block; width: 100% !important; }
+            .k-container { padding: 10px !important; }
+            .k-table-container { border: none !important; overflow: visible !important; }
+            .k-table, .k-table tbody, .k-table tr, .k-table td { display: block !important; width: 100% !important; }
             .k-table thead { display: none !important; }
             
             .k-table tr { 
-                margin-bottom: 12px; 
-                border: 1px solid #ddd; 
-                border-radius: 8px; 
-                padding: 10px;
-                background: #fff;
-                box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+                margin-bottom: 12px !important; 
+                border: 1px solid #ddd !important; 
+                border-radius: 8px !important; 
+                padding: 10px !important;
+                background: #fff !important;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
             }
 
             .k-table td { 
@@ -109,20 +119,20 @@
                 display: flex !important; 
                 justify-content: space-between !important; 
                 align-items: center !important;
-                min-height: 40px;
+                min-height: 40px !important;
             }
 
             /* Mobilde Ürün İsmi */
             .k-table td:first-child { 
-                font-size: 16px; 
+                font-size: 16px !important; 
                 border-bottom: 1px solid #f0f0f0 !important; 
                 padding-bottom: 8px !important; 
-                font-weight: bold;
+                font-weight: bold !important;
                 justify-content: center !important;
-                color: #2c3e50;
+                color: #2c3e50 !important;
             }
             
-            /* Ekranda görünmeyen yazıların (data-label) zorla gösterilmesi */
+            /* Mobilde Yan Yazıların (data-label) Kesin Gösterilmesi */
             .k-table td::before { 
                 content: attr(data-label) !important; 
                 font-weight: bold !important; 
@@ -130,15 +140,16 @@
                 font-size: 13px !important; 
                 display: block !important;
                 visibility: visible !important;
-                flex: 1;
-                text-align: left;
+                opacity: 1 !important;
+                flex: 1 !important;
+                text-align: left !important;
             }
 
-            .k-qty-control { flex: 1; justify-content: flex-end; }
-            .k-btn-step { width: 38px; height: 38px; font-size: 20px; }
-            .k-qty-input { width: 55px; height: 38px; font-size: 16px; line-height: 38px; }
+            .k-qty-control { flex: 1 !important; justify-content: flex-end !important; }
+            .k-btn-step { width: 38px !important; height: 38px !important; font-size: 20px !important; }
+            .k-qty-input { width: 55px !important; height: 38px !important; font-size: 16px !important; line-height: 38px !important; text-align: center !important; }
 
-            .k-total-bar { flex-direction: column; align-items: center; gap: 8px; font-size: 15px; }
+            .k-total-bar { flex-direction: column !important; align-items: center !important; gap: 8px !important; font-size: 15px !important; }
         }
     </style>
 </head>
@@ -201,7 +212,6 @@
 
 <script>
     (function() {
-        // Fiyat listesindeki güncel verilere göre (15.05.2025 tarihli listeden)
         const data = [
             {ad: "56mmX12mt", koli: 630}, {ad: "56mmX13mt", koli: 630}, {ad: "56mmX14mt", koli: 560}, 
             {ad: "56mmX15mt", koli: 560}, {ad: "56mmX16mt", koli: 500}, {ad: "56mmX20mt", koli: 350}, 
@@ -215,7 +225,6 @@
         const gKoli = document.getElementById('grand-koli');
         const gRulo = document.getElementById('grand-rulo');
 
-        // Ürün listesini oluştururken her td'ye data-label ekliyoruz
         data.forEach((u, i) => {
             const tr = document.createElement('tr');
             tr.innerHTML = `
@@ -247,7 +256,6 @@
             gRulo.innerText = tr.toLocaleString('tr-TR');
         }
 
-        // Event Listeners
         list.addEventListener('click', (e) => {
             if (e.target.classList.contains('k-btn-step')) {
                 const idx = e.target.dataset.idx;
